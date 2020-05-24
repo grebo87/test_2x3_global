@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use GuzzleHttp\Client;
-use App\Jobs\GetExchangeRate;
 
 
 /*
@@ -22,49 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/clients', function (Request $request) {
-    return App\Http\Resources\Api\ClientResource::collection(App\Models\Api\Client::all());
-});
+Route::get('/clients', 'Api\ClientController@index');
 
-Route::get('/payments', function (Request $request) {
-
-    $client_id = $request->get('client');
-
-    $client = App\Models\Api\Client::find($client_id);
-
-    if (empty($client)) {
-    	return response()->json(['message' => "Client not found"], 404);
-    }
-
-    return App\Http\Resources\Api\PaymentResource::collection($client->payments);
-});
+Route::get('/payments', 'Api\PaymentController@show');
 
 
-Route::post('/payments', function (Request $request) {
-
-	$validation = Validator::make($request->all(), [
-	    'client_id' => 'required',
-        'payment_date' => 'required|date',
-        'expires_at' => 'required|date',
-        'status' => 'required',
-        'clp_usd' => 'required'
-	]);
-
-	if ($validation->fails()) {
-		return response()->json([
-			"message" => "validation error",
-			"errors" => $validation->errors()
-		]);
-	}
-
-	GetExchangeRate::dispatch($request->payment_date);
-
-	$request['uuid'] = Str::uuid();
-
-	$payment = App\Models\Api\Payment::create($request->all());
-
-	return (new App\Http\Resources\Api\PaymentResource($payment))
-		->response()
-        ->setStatusCode(201);
-});
+Route::post('/payments', 'Api\PaymentController@store');
 
