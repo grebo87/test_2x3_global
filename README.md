@@ -83,7 +83,3 @@ Para la generación de clientes, no es necesario contar con un endpoint, pero qu
 - Un detalle específico del Job, es que si al momento de ejecutarse el Job, se comprueba que ya se realizo un pago ese mismo día, es decir, ya se utilizo el endpoint y se ejecuto el Job previamente (sin importar si es el mismo cliente), se deberá reutilizar el valor del dolar de tal registro (coincidente con el día), con el fin de evitar una nueva consulta a la API del dolar, ya que este valor ya fue capturado previamente en un pago.
 
 - Al momento de crear un nuevo pago, deberás gatillar medianto el uso de **Events y Listeners** el envío de un correo de notificacion (no tiene que contener absolutamente nada importante, basta con que se envíe), se recomienda el uso de **Mailtrap** para testing, puedes aplicar el envío del Job dentro de un Listener si te acomoda.
-
-
-### Como entregar
-- Simplemente, genera un nuevo proyecto de Laravel, y envianos el link del repositorio, puedes utilizar cualquier servicio de Git en la nube.
