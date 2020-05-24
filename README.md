@@ -52,7 +52,7 @@ En términos técnicos, deberás generar 3 endpoints, los cuales deberan retorna
 		"clp_usd": null,
 	}
 
-### Datos requeridos para el Crear un pago
+Datos requeridos para el Crear un pago
 	{
 		"client_id":1,
 		"payment_date":"2020-05-14",
